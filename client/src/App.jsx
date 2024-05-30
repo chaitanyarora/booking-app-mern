@@ -6,12 +6,13 @@ import Layout from "./Layout.jsx"
 import RegisterPage from './pages/RegisterPage.jsx';
 import axios from 'axios';
 import { UserContextProvider } from './UserContext.jsx';
+import { useEffect } from 'react';
+import AccountPage from './pages/AccountPage.jsx';
 
 axios.defaults.baseURL = 'http://localhost:4000'; // here 127.0.0.1 is also possible
 axios.defaults.withCredentials = true;
 
 function App() {
-
   return (
     <UserContextProvider>
       <Routes>
@@ -19,6 +20,8 @@ function App() {
           <Route index element={<IndexPage />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
+          <Route path="/account/:subpage?" element={<AccountPage />} />
+    
         </Route>
       </Routes>
     </UserContextProvider>
