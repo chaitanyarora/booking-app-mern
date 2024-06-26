@@ -1,8 +1,9 @@
 import React from 'react'
 import { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Navigate, useParams } from 'react-router-dom';
 import { Link } from 'react-router-dom'
 import Perks from '../Perks';
+import axios from "axios";
 
 import PhotosUploader from '../PhotosUploader';
 
@@ -18,6 +19,7 @@ const PlacesPage = () => {
     const [checkIn, setCheckIn] = useState('');
     const [checkOut, setCheckOut] = useState('');
     const [maxGuests, setMaxGuests] = useState(1);
+    const [rediredtToPlacesList, setRediredtToPlacesList] = useState(false);
 
     function inputHeader(text) {
         return (
@@ -40,7 +42,17 @@ const PlacesPage = () => {
         )
     }
 
+    async function addNewPlace(ev) {
+        ev.preventDefault();
+
+        await axios.post('/places', {title, address, addedPhotos, description, perks, extraInfo, checkIn, checkOut, maxGuests});
+        setRediredtToPlacesList(true);
+    }
+
     
+    if(rediredtToPlacesList && action !== 'new') {
+        return <Navigate to={'/account/places'} />;
+    }
 
 
     return (
@@ -57,7 +69,7 @@ const PlacesPage = () => {
 
             {action === 'new' && (
                 <div className=''>
-                    <form>
+                    <form onSubmit={addNewPlace}>
                         {preInput('Title', 'Give a catchy title to your place')}
                         <input type="text"
                             placeholder='Title of your apartment'
