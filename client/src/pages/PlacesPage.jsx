@@ -32,7 +32,7 @@ const PlacesPage = () => {
             </div>
         )}
 
-            {/* {action === 'new' && (
+            /{/* {action === 'new' && (
                 
             )} */}
 
