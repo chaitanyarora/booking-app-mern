@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import Perks from '../Perks';
 import axios from "axios";
 import PhotosUploader from '../PhotosUploader';
+import AccountNav from '../AccountNav';
 
 const PlacesFormPage = () => {
     const [title, setTitle] = useState('');
@@ -16,6 +17,7 @@ const PlacesFormPage = () => {
     const [checkIn, setCheckIn] = useState('');
     const [checkOut, setCheckOut] = useState('');
     const [maxGuests, setMaxGuests] = useState(1);
+    const [redirect, setRedirect] = useState(false);
 
     function inputHeader(text) {
         return (
@@ -42,12 +44,16 @@ const PlacesFormPage = () => {
         ev.preventDefault();
 
         await axios.post('/places', {title, address, addedPhotos, description, perks, extraInfo, checkIn, checkOut, maxGuests});
-        setRediredtToPlacesList(true);
+        setRedirect(true);
     }
 
 
+    if (redirect) {
+        return <Navigate to={'/account/places'} />
+    }
   return (
-    <div className=''>
+    <div>
+    <AccountNav />
                     <form onSubmit={addNewPlace}>
                         {preInput('Title', 'Give a catchy title to your place')}
                         <input type="text"

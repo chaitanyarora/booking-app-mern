@@ -143,4 +143,13 @@ app.post('/places', function (req, res) {
     
 });
 
+app.get('/places', async (req, res) => {
+    const {token} = req.cookies;
+    jwt.verify(token, jwtSecret, {}, async (err, userData) => {
+        const {id} = userData;
+        res.json( await Place.find({owner:id}));
+    })
+    
+})
+
 app.listen(4000);
